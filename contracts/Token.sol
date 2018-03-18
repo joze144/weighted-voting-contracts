@@ -72,6 +72,14 @@ contract Token is TokenInterface, SafeMath, Owner {
         return balances[_owner];
     }
 
+    function distributionOf(address _owner) public view returns (address[] addresses, uint256[] balances) {
+        // TODO: implement
+    }
+
+    function members() public view returns (address[] addresses, uint256[] balances) {
+        // TODO: implement
+    }
+
     function totalSupply() public view returns (uint256 supply) {
         return totalSupply;
     }

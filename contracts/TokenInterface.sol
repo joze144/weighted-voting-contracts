@@ -9,6 +9,15 @@ contract TokenInterface {
     /// @return The balance
     function balanceOf(address _owner) public view returns (uint256 balance) {}
 
+    /// @notice Get distribution of owners initial tokens
+    /// @param _owner The address for which token distribution will be retrieved
+    /// @return Array of addresses and array of balances
+    function distributionOf(address _owner) public view returns (address[] addresses, uint256[] balances) {}
+
+    /// @notice Get all members associated with the token
+    /// @return Array of addresses and array of balances
+    function members() public view returns (address[] addresses, uint256[] balances) {}
+
     /// @notice send `_value` token to `_to` from `msg.sender`
     /// @param _to The address of the recipient
     /// @param _value The amount of token to be transferred
