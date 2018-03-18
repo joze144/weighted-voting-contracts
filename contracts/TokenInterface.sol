@@ -27,7 +27,7 @@ contract TokenInterface {
     /// @return Whether the transfer was successful or not
     function reset(address _owner) returns (bool success) {}
 
-    function addMember(address _member) returns (bool success) {}
+    function addMember() returns (bool success) {}
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event AddMember(address indexed _member);
