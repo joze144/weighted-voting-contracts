@@ -6,8 +6,8 @@ import './Owner';
 
 contract Token is TokenInterface, SafeMath, Owner {
     uint8 public decimals;                //How many decimals to show
-    uint256 public initialAmount;        //How many tokens each user gets initially
-    uint256 public totalSupply;
+    uint256 public initialAmount;         //How many tokens each user gets initially
+    uint256 public totalSupply;           //Total supply of the token
 
     address[] public addressIndices;                                            //Added addresses
     mapping(address => uint256) balances;                                       //Total balances per address
@@ -24,7 +24,7 @@ contract Token is TokenInterface, SafeMath, Owner {
         }
         balances[msg.sender] = safeSub(balances[msg.sender], _value);
         balances[_to] = safeAdd(balances[_to], _value);
-        addressDistribution[msg.sender][mes.sender] = safeSub(addressDistribution[msg.sender][mes.sender], _value);
+        addressDistribution[msg.sender][msg.sender] = safeSub(addressDistribution[msg.sender][msg.sender], _value);
         addressDistribution[msg.sender][_to] = safeAdd(addressDistribution[msg.sender][_to], _value);
 
         Transfer(msg.sender, _to, _value);
@@ -60,7 +60,7 @@ contract Token is TokenInterface, SafeMath, Owner {
             }
         }
         addressIndices.push(msg.sender);
-        balances[msg.sender] = initialAmount;
+        balances[msg.sender] = safeAdd(balances[msg.sender], initialAmount);
         addressDistribution[msg.sender][msg.sender] = initialAmount;
         totalSupply = safeAdd(totalSupply, initialAmount);
 
