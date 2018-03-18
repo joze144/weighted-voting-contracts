@@ -9,8 +9,10 @@ contract Token is TokenInterface, SafeMath, Owner {
     uint256 public initialAmount;        //How many tokens each user gets initially
     uint256 public totalSupply;
 
-    mapping(address => uint256) balances;
-    mapping (address => mapping (address => uint256)) addressDistribution;
+    address[] public addressIndices;                                            //Added addresses
+    mapping(address => uint256) balances;                                       //Total balances per address
+    mapping(address => address[]) memberAddressIndices;                         //Addresses with token value per member
+    mapping (address => mapping (address => uint256)) addressDistribution;      //Distribution per member
 
     function transfer(address _to, uint256 _value) returns (bool success) {
         // Assumes totalSupply and initialAmount can't be over max (2^256 - 1)
@@ -47,13 +49,20 @@ contract Token is TokenInterface, SafeMath, Owner {
     }
 
     function reset(address _owner) returns (bool success) {
-        /// TODO: implement. Looping kind of sucks.. Have to check how people do that
+        /// TODO: implement. Have to use memberAddressIndices.. https://medium.com/@blockchain101/looping-in-solidity-32c621e05c22
     }
 
     function addMember() returns (bool success) {
-        // TODO: make sure it can be called just once per address
+        for (uint i=0; i<addressIndices.length; i++) {
+            if (addressIndices[i] == msg.sender) {
+                // Address already registered with the token
+                return false;
+            }
+        }
+        addressIndices.push(msg.sender);
         balances[msg.sender] = initialAmount;
         addressDistribution[msg.sender][msg.sender] = initialAmount;
+        totalSupply += initialAmount;
 
         AddMember(msg.sender);
         return true;
