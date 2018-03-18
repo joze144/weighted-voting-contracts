@@ -22,10 +22,10 @@ contract Token is TokenInterface, SafeMath, Owner {
         if (addressDistribution[msg.sender][msg.sender] < _value) {
             return false;
         }
-        balances[msg.sender] -= _value;
-        balances[_to] += _value;
-        addressDistribution[msg.sender][mes.sender] -= value;
-        addressDistribution[msg.sender][_to] += value;
+        balances[msg.sender] = safeSub(balances[msg.sender], _value);
+        balances[_to] = safeAdd(balances[_to], _value);
+        addressDistribution[msg.sender][mes.sender] = safeSub(addressDistribution[msg.sender][mes.sender], _value);
+        addressDistribution[msg.sender][_to] = safeAdd(addressDistribution[msg.sender][_to], _value);
 
         Transfer(msg.sender, _to, _value);
         return true;
@@ -39,12 +39,12 @@ contract Token is TokenInterface, SafeMath, Owner {
         if (addressDistribution[msg.sender][_from] < _value || addressDistribution[msg.sender][_to] + _value <= addressDistribution[msg.sender][_to]) {
             return false;
         }
-        balances[_from] -= _value;
-        balances[_to] += _value;
-        addressDistribution[msg.sender][_from] -= value;
-        addressDistribution[msg.sender][_to] += value;
+        balances[_from] = safeSub(balances[_from], _value);
+        balances[_to] = safeAdd(balances[_to], _value);
+        addressDistribution[msg.sender][_from] = safeSub(addressDistribution[msg.sender][_from], _value);
+        addressDistribution[msg.sender][_to] = safeAdd(addressDistribution[msg.sender][_to], _value);
 
-        Transfer(msg.sender, _to, _value);
+        Transfer(_from, _to, _value);
         return true;
     }
 
@@ -62,7 +62,7 @@ contract Token is TokenInterface, SafeMath, Owner {
         addressIndices.push(msg.sender);
         balances[msg.sender] = initialAmount;
         addressDistribution[msg.sender][msg.sender] = initialAmount;
-        totalSupply += initialAmount;
+        totalSupply = safeAdd(totalSupply, initialAmount);
 
         AddMember(msg.sender);
         return true;
