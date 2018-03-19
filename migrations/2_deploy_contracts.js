@@ -1,9 +1,11 @@
 var owner = artifacts.require("./Owner.sol");
 var safemath = artifacts.require("./SafeMath.sol");
-var standardtoken = artifacts.require("./TokenInterface.sol");
+var standardtoken = artifacts.require("./iToken.sol");
 var token = artifacts.require("./Token.sol");
-var humanToken = artifacts.require("./HumanToken.sol");
+var group = artifacts.require("./Group.sol");
+var poll = artifacts.require("./Poll.sol");
+var weightedGovernance = artifacts.require("./WeightedGovernance.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(humanToken, 0, 'WGT', 18, 'WGT');
+  deployer.deploy(group, 'WGT', 'WGT', 100, 3);
 };
