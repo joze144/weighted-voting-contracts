@@ -35,8 +35,25 @@ interface iToken {
     /// @return Whether the transfer was successful or not
     function reset() public returns (bool success);
 
+    /// @notice Add member to the group. Member gets initial tokens
+    /// @return True if successfully added
     function addMember() public returns (bool success);
 
+    /// @notice Get name of the group
+    /// @return Returns group name
+    function getName() public view returns (string name);
+
+    /// @notice Get group symbol
+    /// @return Returns group symbol
+    function getSymbol() public view returns (string symbol);
+
+    /// @notice Get version of the group
+    /// @return Returns group version
+    function getVersion() public view returns (string version);
+
+    /// @notice Event propagated on every executed transaction
     event LogTransfer(address indexed _from, address indexed _to, uint256 _value);
+
+    /// @notice Event propagated when new member is added to the group
     event LogAddMember(address indexed _member);
 }
